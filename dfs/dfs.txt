@@ -1,0 +1,44 @@
+def dfs(fork, state, e):
+    stack = []
+    time = 1
+    flag = True
+        
+    for l in range(len(fork[0])):
+        if flag:   
+            stack.append(e)
+            flag = False
+   
+        while len(stack) > 0:
+           
+            n = stack.pop()
+            if state[n][0] == 0:
+                state[n][1] = time
+                state[n][0] = 1
+                time += 1
+
+            stack.append(n)
+            contTotal = 0
+            contBlack = 0
+            for j in range(len(fork[0])):
+                if fork[n][j] == 1:
+                    contTotal += 1
+                    if state[j][0] == 0:
+                        stack.append(j)
+                        break
+                    else:
+                        contBlack +=1
+
+            if contTotal == contBlack:
+                stack.pop()
+                    
+                state[n][0] = 2
+                state[n][2] = time
+                time+=1 
+                
+                
+        if l != e and state[l][0] != 2:
+            stack.append(l)
+        else:
+            continue
+
+    return state   
